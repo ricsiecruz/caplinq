@@ -41,19 +41,20 @@ export class AppComponent {
   openNewModal(newContent: any, item: any) {
     // Safely dismiss the current modal if it exists
     this.currentModal?.dismiss(); // Using optional chaining to call dismiss() if currentModal is not null
-
+  
     this.selectedItem = item; // Store the selected item's data
     console.log('Selected Item:', item);
-
+  
     // Fetch products related to the selected supplier
     this.service.getProductsBySupplierId(item.id).subscribe((res: any) => {
       console.log('Products for supplier:', res);
-      this.products = res.data; // Store the fetched products
+      this.products = res.data; // Store the fetched products, which include the childProducts
     });
-
+  
     this.previousModal = this.currentModal; // Store the current modal before opening the new one
     this.currentModal = this.modalService.open(newContent); // Open the new modal
   }
+  
 
   goBackToPreviousModal() {
     // Dismiss the current modal safely

@@ -26,6 +26,10 @@
     <div *ngIf="products.length > 0; else noProducts">
       <div *ngFor="let product of products">
         <p>{{ product.name }}</p>
+        <!-- Loop through the childProducts array -->
+        <div *ngFor="let childProduct of product.childProducts">
+          <p>{{ childProduct.name }}</p>
+        </div>
       </div>
     </div>
     <ng-template #noProducts>
