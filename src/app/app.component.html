@@ -1,14 +1,29 @@
 <button class="btn btn-primary" (click)="open(content)">Launch Demo Modal</button>
 
+<!-- Original Modal -->
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Modal Title</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body">
-    <div *ngFor="let item of list">
+    <div *ngFor="let item of list" (click)="openNewModal(newContent, item)">
       {{ item.name }}
     </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="modal.close()">Close</button>
+  </div>
+</ng-template>
+
+<!-- New Modal -->
+<ng-template #newContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">New Modal</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p>This is a new modal triggered from the list item!</p>
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" (click)="modal.close()">Close</button>
