@@ -1,14 +1,15 @@
 <button class="btn btn-primary" (click)="open(content)">Launch Demo Modal</button>
 
-<!-- Original Modal -->
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Modal Title</h4>
+    <h4 class="modal-title">Supplier List</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body">
-    <div *ngFor="let item of list" (click)="openNewModal(newContent, item)">
-      {{ item.name }}
+    <div *ngFor="let item of list">
+      <div (click)="openNewModal(newModalContent, item)">
+        {{ item.name }}
+      </div>
     </div>
   </div>
   <div class="modal-footer">
@@ -16,16 +17,23 @@
   </div>
 </ng-template>
 
-<!-- New Modal -->
-<ng-template #newContent let-modal>
+<ng-template #newModalContent let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">New Modal</h4>
+    <h4 class="modal-title">Products for {{ selectedItem?.name }}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body">
-    <p>This is a new modal triggered from the list item!</p>
+    <div *ngIf="products.length > 0; else noProducts">
+      <div *ngFor="let product of products">
+        <p>{{ product.name }}</p>
+      </div>
+    </div>
+    <ng-template #noProducts>
+      <p>No products available for this supplier.</p>
+    </ng-template>
   </div>
   <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="goBackToPreviousModal()">Back</button>
     <button class="btn btn-secondary" (click)="modal.close()">Close</button>
   </div>
 </ng-template>
