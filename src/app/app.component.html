@@ -1,0 +1,14 @@
+<button class="btn btn-primary" (click)="open(content)">Launch Demo Modal</button>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Modal Title</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p>This is a demo modal using ng-bootstrap.</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="modal.close()">Close</button>
+  </div>
+</ng-template>
