@@ -6,7 +6,9 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body">
-    <p>This is a demo modal using ng-bootstrap.</p>
+    <div *ngFor="let item of list">
+      {{ item.name }}
+    </div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" (click)="modal.close()">Close</button>
