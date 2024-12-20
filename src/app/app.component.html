@@ -35,13 +35,12 @@
   </div>
 </ng-template>
 
-<!-- New Modal -->
 <ng-template #newModalContent let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">{{ selectedItem?.name }}</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss(); resetSearch()"></button>
-  </div>
-  <div class="modal-body">
+    <div>
+      <h4 class="modal-title">{{ selectedItem?.name }}</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss(); resetSearch()"></button>
+    </div>
     <input
       type="text"
       [(ngModel)]="searchTerm"
@@ -50,8 +49,11 @@
       placeholder="Search products..."
       style="margin-bottom: 15px;"
     />
+  </div>
+
+  <div class="modal-body"> 
     <div *ngIf="filteredProducts.length > 0; else noProducts">
-      <div *ngFor="let product of filteredProducts" class="app_suppliers">
+      <div *ngFor="let product of filteredProducts" class="app_suppliers" [ngClass]="{ 'highlight': product === selectedProduct }">
         <div (click)="toggleChildProducts(product)">
           <p>{{ product.name }}</p>
         </div>
