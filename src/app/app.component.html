@@ -64,7 +64,9 @@
         <div (click)="toggleChildProducts(product)">
           <p [innerHTML]="highlightText(product.name, searchTerm)"></p>
         </div>
-        <div *ngIf="product.isExpanded">
+        
+        <!-- Only show child products if there is a search term or product is expanded -->
+        <div *ngIf="searchTerm || product.isExpanded">
           <div
             *ngFor="let childProduct of product.childProducts"
             class="app_suppliers_products"
@@ -75,6 +77,7 @@
               'red-background': childProduct === selectedProduct 
             }"
           >
+            <!-- Always show child product name and SKU, but highlight when search term is present -->
             <p [innerHTML]="highlightText(childProduct.name, searchTerm)"></p>
             <p [innerHTML]="highlightText('SKU: ' + childProduct.sku, searchTerm)"></p>
           </div>

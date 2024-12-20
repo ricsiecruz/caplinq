@@ -94,26 +94,32 @@ export class AppComponent {
         child.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         child.sku.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
-
+  
+      // Set isExpanded based on the search term
+      const isExpanded = this.searchTerm !== '' && (matchesProductName || filteredChildProducts.length > 0);
+  
       if (matchesProductName) {
         return {
           ...product,
-          isExpanded: true,
+          isExpanded: isExpanded,  // Set isExpanded based on search term
           childProducts: product.childProducts,
         };
       }
-
+  
       if (filteredChildProducts.length > 0) {
         return {
           ...product,
-          isExpanded: true,
+          isExpanded: isExpanded,  // Set isExpanded based on search term
           childProducts: filteredChildProducts,
         };
       }
-
+  
+      // Return null if no matches and no filtered child products
       return null;
     }).filter(product => product !== null);
-  }
+  
+    console.log('search', this.searchTerm, this.filteredProducts);
+  }  
   
   toggleChildProducts(product: any) {
     product.isExpanded = !product.isExpanded;
