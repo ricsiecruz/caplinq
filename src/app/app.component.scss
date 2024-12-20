@@ -1,5 +1,5 @@
 .app {
-    &_suppliers {
+    &_suppliers, &_products {
       border-bottom: 1px solid #E5E5E5;
       padding: 10px;
       
@@ -8,13 +8,9 @@
         fill: #c4c4c4;
       }
 
-      &:hover {
-        background-color: #2F8DF8FC;
-        color: #FFFFFF;
-        cursor: pointer;
-
+      &.no-fill-on-hover:hover {
         svg {
-            fill: #FFFFFF;
+          fill: #c4c4c4 !important; /* Reset the fill */
         }
       }
 
@@ -42,13 +38,17 @@
         }
       }
 
-      &_products {
+      &_list {
         display: flex;
         justify-content: space-between;
-        &_list {
+        &_item {
 
           border-top: 1px solid #E5E5E5;
           padding: 10px;
+
+          p {
+            margin-bottom: 0;
+          }
   
           p:first-child {
             padding-bottom: 0;
@@ -61,14 +61,36 @@
           }
         }
 
-        &_list:last-child {
-          padding-bottom: 0;
-        }
+        // &_item:last-child {
+        //   padding-bottom: 0;
+        // }
       }
     }
   
     &_suppliers:last-child {
       border-bottom: none;  // Remove border-bottom for the last item
+    }
+
+    &_suppliers {
+      &:hover {
+        background-color: #2F8DF8FC;
+        color: #FFFFFF;
+        cursor: pointer;
+
+        svg {
+            fill: #FFFFFF;
+        }
+      }
+    }
+
+    &_products {      
+      display: flex;
+      justify-content: space-between;
+      &_list {
+        &_item {
+          padding: 20px;
+        }
+      }
     }
 }
 
@@ -110,4 +132,10 @@ h4 {
 .highlight {
   background-color: #f5f5f5; // Highlight color
         color: #212529;
+}
+
+.no-fill-on-hover:hover {
+  svg {
+    fill: #c4c4c4 !important; /* Reset the fill */
+  }
 }
