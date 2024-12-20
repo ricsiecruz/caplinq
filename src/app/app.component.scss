@@ -43,22 +43,27 @@
       }
 
       &_products {
-        border-top: 1px solid #E5E5E5;
-        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        &_list {
 
-        p:first-child {
+          border-top: 1px solid #E5E5E5;
+          padding: 10px;
+  
+          p:first-child {
+            padding-bottom: 0;
+          }
+  
+          p:last-child {
+            color: #7B7B7B;
+            font-size: 12px;
+            font-weight: 400;
+          }
+        }
+
+        &_list:last-child {
           padding-bottom: 0;
         }
-
-        p:last-child {
-          color: #7B7B7B;
-          font-size: 12px;
-          font-weight: 400;
-        }
-      }
-
-      &_products:last-child {
-        padding-bottom: 0;
       }
     }
   
