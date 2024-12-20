@@ -35,7 +35,6 @@
   </div>
 </ng-template>
 
-<!-- Modal for selecting products under selected supplier -->
 <ng-template #newModalContent let-modal>
   <div class="modal-header">
     <div>
@@ -59,7 +58,7 @@
         class="app_suppliers"
         [ngClass]="{ 
           'highlight': isHighlight(product),
-          'red-background': searchTerm && shouldHighlightProduct(product)
+          'red-background': searchTerm && product.name.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm && shouldHighlightProduct(product)
         }"
       >
         <div (click)="toggleChildProducts(product)">
@@ -91,5 +90,5 @@
     <button class="btn btn-secondary" (click)="goBackToPreviousModal(); resetSelectedProduct()">Back</button>
     <button class="btn btn-secondary" (click)="modal.close(); resetSearch()">Close</button>
   </div>
-  
 </ng-template>
+
