@@ -5,6 +5,7 @@
       
       svg {
         width: 15px;
+        fill: #c4c4c4;
       }
 
       &:hover {
@@ -25,9 +26,19 @@
       &.highlight {
         background-color: #f5f5f5; // Highlight color
         color: #212529;
+        padding: 20px;
+
+        div {
+          padding-bottom: 10px;
+        }
+
+        div:last-child {
+          padding-bottom: 0;
+        }
 
         p {
           padding-top: 0;
+          padding-left: 0;
         }
       }
 
@@ -58,6 +69,8 @@
 
 .modal-header {
   display: block;
+  padding: 40px;
+  padding-bottom: 24px;
 
   div {
     display: flex;
@@ -77,7 +90,7 @@ h4 {
 }
 
 .modal-body {
-    padding: 0 1rem;
+    padding: 0 40px;
 }
 
 .red-background {
