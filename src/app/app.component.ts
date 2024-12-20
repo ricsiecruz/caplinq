@@ -129,36 +129,31 @@ export class AppComponent {
   }
 
   updateCheckboxState(): void {
-    // Check if any childProduct is selected
     this.isCheckboxChecked = this.products.some(product =>
       product.childProducts.some((child: any) => child.isChecked)
     );
   }
 
-  // Check if any checkbox is selected
-get isAnyCheckboxChecked(): boolean {
-  return this.products.some(product =>
-    product.childProducts.some((child: any) => child.isChecked)
-  );
-}
+  get isAnyCheckboxChecked(): boolean {
+    return this.products.some(product =>
+      product.childProducts.some((child: any) => child.isChecked)
+    );
+  }
 
-// Count the number of selected products
-getSelectedProductsCount(): number {
-  return this.products.reduce((count, product) => {
-    const selectedChildren = product.childProducts.filter((child: any) => child.isChecked);
-    return count + selectedChildren.length;
-  }, 0);
-}
-
+  getSelectedProductsCount(): number {
+    return this.products.reduce((count, product) => {
+      const selectedChildren = product.childProducts.filter((child: any) => child.isChecked);
+      return count + selectedChildren.length;
+    }, 0);
+  }
 
   handleConfirm(): void {
-    // Handle confirm action here
     console.log('Confirmed with selected products:', this.products);
   }
   
   toggleChildProducts(product: any) {
     product.isExpanded = !product.isExpanded;
-    this.selectedProduct = product; // Highlight the selected product
+    this.selectedProduct = product;
   }
 
   isRedBackground(product: any): boolean {
