@@ -120,6 +120,11 @@ export class AppComponent {
   
     console.log('search', this.searchTerm, this.filteredProducts);
   }  
+
+  onCheckboxChange(childProduct: any, event: Event): void {
+    childProduct.isChecked = (event.target as HTMLInputElement).checked;
+    console.log(`${childProduct.name} is checked: ${childProduct.isChecked}`);
+  }  
   
   toggleChildProducts(product: any) {
     product.isExpanded = !product.isExpanded;

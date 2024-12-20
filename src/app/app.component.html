@@ -1,4 +1,3 @@
-<!-- Modal for selecting supplier -->
 <button class="btn btn-primary" (click)="open(content)">Launch Demo Modal</button>
 
 <ng-template #content let-modal>
@@ -90,10 +89,20 @@
               'red-background': childProduct === selectedProduct 
             }"
           >
-            <p [innerHTML]="highlightText(childProduct.name, searchTerm)"></p>
-            <p [innerHTML]="highlightText('SKU: ' + childProduct.sku, searchTerm)"></p>
+            <div class="checkbox-container">
+              <input 
+                type="checkbox" 
+                [checked]="childProduct.isChecked" 
+                (change)="onCheckboxChange(childProduct, $event)" 
+              />
+            </div>
+            <div>
+              <p [innerHTML]="highlightText(childProduct.name, searchTerm)"></p>
+              <p [innerHTML]="highlightText('SKU: ' + childProduct.sku, searchTerm)"></p>
+            </div>
           </div>
         </div>
+        
       </div>
     </div>
     <ng-template #noProducts>
