@@ -25,6 +25,7 @@ export class AppComponent {
   searchTerm: string = '';
   filteredList: any;
   filteredProducts: any;
+  isCheckboxChecked: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -123,8 +124,37 @@ export class AppComponent {
 
   onCheckboxChange(childProduct: any, event: Event): void {
     childProduct.isChecked = (event.target as HTMLInputElement).checked;
+    this.updateCheckboxState();
     console.log(`${childProduct.name} is checked: ${childProduct.isChecked}`);
-  }  
+  }
+
+  updateCheckboxState(): void {
+    // Check if any childProduct is selected
+    this.isCheckboxChecked = this.products.some(product =>
+      product.childProducts.some((child: any) => child.isChecked)
+    );
+  }
+
+  // Check if any checkbox is selected
+get isAnyCheckboxChecked(): boolean {
+  return this.products.some(product =>
+    product.childProducts.some((child: any) => child.isChecked)
+  );
+}
+
+// Count the number of selected products
+getSelectedProductsCount(): number {
+  return this.products.reduce((count, product) => {
+    const selectedChildren = product.childProducts.filter((child: any) => child.isChecked);
+    return count + selectedChildren.length;
+  }, 0);
+}
+
+
+  handleConfirm(): void {
+    // Handle confirm action here
+    console.log('Confirmed with selected products:', this.products);
+  }
   
   toggleChildProducts(product: any) {
     product.isExpanded = !product.isExpanded;

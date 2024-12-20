@@ -112,8 +112,16 @@
   </div>  
   
   <div class="modal-footer">
+    <button 
+      class="btn btn-primary" 
+      [disabled]="!isAnyCheckboxChecked" 
+      (click)="handleConfirm()"
+    >
+      {{ getSelectedProductsCount() }} products selected
+    </button>
     <button class="btn btn-secondary" (click)="goBackToPreviousModal(); resetSelectedProduct()">Back</button>
     <button class="btn btn-secondary" (click)="modal.close(); resetSearch()">Close</button>
   </div>
+  
 </ng-template>
 
