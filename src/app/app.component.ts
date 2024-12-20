@@ -38,6 +38,13 @@ export class AppComponent {
     this.modalContent = null; // Initialize the modalContent
   }
 
+  shouldHighlightProduct(product: any): boolean {
+    return product.childProducts.some((childProduct: any) =>
+      childProduct.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      childProduct.sku.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
   filterList() {
     this.filteredList = this.list.filter((item: { name: string; }) =>
       item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
@@ -112,6 +119,42 @@ export class AppComponent {
     product.isExpanded = !product.isExpanded;
     this.selectedProduct = product; // Highlight the selected product
   }
+
+  isRedBackground(product: any): boolean {
+    return (
+      product === this.selectedProduct || 
+      this.isChildProductSelected(product.childProducts) ||
+      product.childProducts.some((child: any) =>
+        child.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        child.sku.toLowerCase().includes(this.searchTerm.toLowerCase())
+      )
+    );
+  }
+
+  isHighlight(product: any): boolean {
+    return product === this.selectedProduct || this.isChildProductSelected(product.childProducts);
+  }
+
+  isHighlightSearch(product: any): boolean {
+    return product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
+      product.childProducts.some((child: any) =>
+        child.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        child.sku.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+  }
+
+  isChildProductSelected(childProducts: any[]): boolean {
+    return childProducts.some((child) => child === this.selectedProduct);
+  }  
+
+  highlightText(text: string, searchTerm: string): string {
+    if (!searchTerm) {
+      return text; // Return the original text if no search term is provided
+    }
+  
+    const regex = new RegExp(`(${searchTerm})`, 'gi');
+    return text.replace(regex, '<span class="highlight">$1</span>');
+  }  
 
   // Function to reset the selected product when navigating back
   resetSelectedProduct() {
