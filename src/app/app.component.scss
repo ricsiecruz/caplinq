@@ -56,6 +56,26 @@
     }
 }
 
+.modal-header {
+  display: block;
+
+  div {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+  }
+}
+
+h4 {
+  font-size: 20px;
+  font-weight: 400;
+  color: #7B7B7B;
+}
+
+.btn-close {
+  font-size: 10px;
+}
+
 .modal-body {
     padding: 0 1rem;
 }

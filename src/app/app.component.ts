@@ -3,11 +3,12 @@ import { NgbModal, NgbModalModule, NgbModalRef } from '@ng-bootstrap/ng-bootstra
 import { HttpClientModule } from '@angular/common/http';
 import { ServiceService } from './services/service.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgbModalModule, HttpClientModule, CommonModule], // Import HttpClientModule here
+  imports: [NgbModalModule, HttpClientModule, CommonModule, FormsModule], // Import HttpClientModule here
   providers: [ServiceService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
@@ -21,6 +22,8 @@ export class AppComponent {
   private previousModal: NgbModalRef | null = null; // Store the previous modal instance
   private modalContent: any; // Store the content for the initial modal
   selectedProduct: any = null;
+  searchTerm: string = '';
+  filteredList: any;
 
   constructor(
     private modalService: NgbModal,
@@ -29,8 +32,15 @@ export class AppComponent {
     this.service.getSuppliers().subscribe((res: any) => {
       console.log('res', res);
       this.list = res;
+      this.filteredList = [...this.list];
     });
     this.modalContent = null; // Initialize the modalContent
+  }
+
+  filterList() {
+    this.filteredList = this.list.filter((item: { name: string; }) =>
+      item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   open(content: any) {
