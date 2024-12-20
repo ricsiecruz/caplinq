@@ -20,6 +20,7 @@ export class AppComponent {
   private currentModal: NgbModalRef | null = null; // Store the current modal instance
   private previousModal: NgbModalRef | null = null; // Store the previous modal instance
   private modalContent: any; // Store the content for the initial modal
+  selectedProduct: any = null;
 
   constructor(
     private modalService: NgbModal,
@@ -60,10 +61,12 @@ export class AppComponent {
   }
   
   toggleChildProducts(product: any) {
-    // Toggle the isExpanded state to show/hide child products
+    // Toggle the isExpanded property
     product.isExpanded = !product.isExpanded;
+
+    // Set the selected product
+    this.selectedProduct = product.isExpanded ? product : null;
   }
-  
 
   goBackToPreviousModal() {
     // Dismiss the current modal safely

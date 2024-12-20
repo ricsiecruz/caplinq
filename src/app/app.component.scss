@@ -22,9 +22,32 @@
         padding: 10px;
       }
 
+      &.highlight {
+        background-color: #f5f5f5; // Highlight color
+        color: #212529;
+
+        p {
+          padding-top: 0;
+        }
+      }
+
       &_products {
         border-top: 1px solid #E5E5E5;
         padding: 10px;
+
+        p:first-child {
+          padding-bottom: 0;
+        }
+
+        p:last-child {
+          color: #7B7B7B;
+          font-size: 12px;
+          font-weight: 400;
+        }
+      }
+
+      &_products:last-child {
+        padding-bottom: 0;
       }
     }
   
