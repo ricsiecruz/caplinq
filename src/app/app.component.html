@@ -17,8 +17,8 @@
     />
   </div>
   <div class="modal-body">
-    <div *ngFor="let item of filteredList" class="app_suppliers">
-      <div (click)="openNewModal(newModalContent, item)" style="display: flex; justify-content: space-between;">
+    <div *ngFor="let item of filteredList" class="app_suppliers" (click)="openNewModal(newModalContent, item)">
+      <div class="app_suppliers_list" style="display: flex; justify-content: space-between;">
         <div>{{ item.name }}</div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path
@@ -63,12 +63,10 @@
         [ngClass]="{ 
           'highlight': isHighlight(product) && (searchTerm || product.isExpanded),
           'red-background': (searchTerm && product.name.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm && shouldHighlightProduct(product)) && product.isExpanded
-        }"
+        }" 
+        class="app_products"
       >
-        <div 
-          (click)="toggleChildProducts(product)" 
-          class="app_products"
-          [ngClass]="{ 'no-fill-on-hover': product.isExpanded }">
+        <div [ngClass]="{ 'no-fill-on-hover': product.isExpanded }" class="app_products_list" (click)="toggleChildProducts(product)">
           <p [innerHTML]="highlightText(product.name, searchTerm)"></p>
           
           <ng-container *ngIf="product.isExpanded; else collapsedIcon">
@@ -118,14 +116,29 @@
   
   <div class="modal-footer">
     <button 
-      class="btn btn-primary" 
+      class="btn" 
+      [ngClass]="{
+        'button_disabled': !isAnyCheckboxChecked,
+        'button_enabled': isAnyCheckboxChecked
+      }" 
       [disabled]="!isAnyCheckboxChecked" 
       (click)="handleConfirm()"
     >
       {{ getSelectedProductsCount() }} products selected
     </button>
-    <button class="btn btn-secondary" (click)="goBackToPreviousModal(); resetSelectedProduct()">Back</button>
-    <button class="btn btn-secondary" (click)="modal.close(); resetSearch()">Close</button>
+    <div>
+      <button class="btn button_cancel" (click)="modal.close(); resetSearch()">Cancel</button>
+      <button 
+        class="btn" 
+        [ngClass]="{
+          'button_disabled': !isAnyCheckboxChecked,
+          'button_enabled': isAnyCheckboxChecked
+        }" 
+        [disabled]="!isAnyCheckboxChecked" 
+      >
+        Add
+      </button>
+    </div>
   </div>
   
 </ng-template>
