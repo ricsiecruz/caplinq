@@ -48,11 +48,20 @@ export class AppComponent {
     // Fetch products related to the selected supplier
     this.service.getProductsBySupplierId(item.id).subscribe((res: any) => {
       console.log('Products for supplier:', res);
-      this.products = res.data; // Store the fetched products, which include the childProducts
+      // Initialize isExpanded for each product to false initially
+      this.products = res.data.map((product: any) => ({
+        ...product,
+        isExpanded: false, // Initially, child products are hidden
+      }));
     });
   
     this.previousModal = this.currentModal; // Store the current modal before opening the new one
     this.currentModal = this.modalService.open(newContent); // Open the new modal
+  }
+  
+  toggleChildProducts(product: any) {
+    // Toggle the isExpanded state to show/hide child products
+    product.isExpanded = !product.isExpanded;
   }
   
 

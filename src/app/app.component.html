@@ -2,13 +2,14 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Supplier List</h4>
+    <h4 class="modal-title">Browse</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body">
-    <div *ngFor="let item of list">
-      <div (click)="openNewModal(newModalContent, item)">
-        {{ item.name }}
+    <div *ngFor="let item of list" class="app_suppliers">
+      <div (click)="openNewModal(newModalContent, item)" style="display: flex; justify-content: space-between;">
+        <div>{{ item.name }}</div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"></path></svg>
       </div>
     </div>
   </div>
@@ -19,16 +20,22 @@
 
 <ng-template #newModalContent let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Products for {{ selectedItem?.name }}</h4>
+    <h4 class="modal-title">{{ selectedItem?.name }}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body">
     <div *ngIf="products.length > 0; else noProducts">
-      <div *ngFor="let product of products">
-        <p>{{ product.name }}</p>
-        <!-- Loop through the childProducts array -->
-        <div *ngFor="let childProduct of product.childProducts">
-          <p>{{ childProduct.name }}</p>
+      <div *ngFor="let product of products" class="app_suppliers">
+        <!-- Product name, clicking on this will toggle child products -->
+        <div (click)="toggleChildProducts(product)">
+          <p>{{ product.name }}</p>
+        </div>
+
+        <!-- Show child products only if isExpanded is true -->
+        <div *ngIf="product.isExpanded">
+          <div *ngFor="let childProduct of product.childProducts" class="app_suppliers_products">
+            <p>{{ childProduct.name }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -41,3 +48,4 @@
     <button class="btn btn-secondary" (click)="modal.close()">Close</button>
   </div>
 </ng-template>
+

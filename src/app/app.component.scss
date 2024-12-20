@@ -1,0 +1,38 @@
+.app {
+    &_suppliers {
+      border-bottom: 1px solid #E5E5E5;
+      padding: 10px;
+      
+      svg {
+        width: 15px;
+      }
+
+      &:hover {
+        background-color: #2F8DF8FC;
+        color: #FFFFFF;
+        cursor: pointer;
+
+        svg {
+            fill: #FFFFFF;
+        }
+      }
+
+      p {
+        margin-bottom: 0;
+        padding: 10px;
+      }
+
+      &_products {
+        border-top: 1px solid #E5E5E5;
+        padding: 10px;
+      }
+    }
+  
+    &_suppliers:last-child {
+      border-bottom: none;  // Remove border-bottom for the last item
+    }
+}
+
+.modal-body {
+    padding: 0 1rem;
+}
