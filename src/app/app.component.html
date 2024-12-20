@@ -1,10 +1,11 @@
+<!-- Main Modal -->
 <button class="btn btn-primary" (click)="open(content)">Launch Demo Modal</button>
 
 <ng-template #content let-modal>
   <div class="modal-header">
     <div>
       <h4 class="modal-title">Browse</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss(); resetSearch()"></button>
     </div>
     <input
       type="text"
@@ -13,7 +14,6 @@
       class="form-control"
       placeholder="Search supplier"
     />
-    
   </div>
   <div class="modal-body">
     <div *ngFor="let item of filteredList" class="app_suppliers">
@@ -26,32 +26,35 @@
         </svg>
       </div>
     </div>
-  
-    <!-- Show message if no results -->
     <div *ngIf="filteredList.length === 0">
       <p>No suppliers found.</p>
     </div>
   </div>
-  
   <div class="modal-footer">
-    <button class="btn btn-secondary" (click)="modal.close()">Close</button>
+    <button class="btn btn-secondary" (click)="modal.close(); resetSearch()">Close</button>
   </div>
 </ng-template>
 
+<!-- New Modal -->
 <ng-template #newModalContent let-modal>
   <div class="modal-header">
     <h4 class="modal-title">{{ selectedItem?.name }}</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss(); resetSearch()"></button>
   </div>
   <div class="modal-body">
-    <div *ngIf="products.length > 0; else noProducts">
-      <div *ngFor="let product of products" class="app_suppliers" [ngClass]="{ 'highlight': product === selectedProduct }">
-        <!-- Product name, clicking on this will toggle child products -->
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="filterProducts()"
+      class="form-control"
+      placeholder="Search products..."
+      style="margin-bottom: 15px;"
+    />
+    <div *ngIf="filteredProducts.length > 0; else noProducts">
+      <div *ngFor="let product of filteredProducts" class="app_suppliers">
         <div (click)="toggleChildProducts(product)">
           <p>{{ product.name }}</p>
         </div>
-
-        <!-- Show child products only if isExpanded is true -->
         <div *ngIf="product.isExpanded">
           <div *ngFor="let childProduct of product.childProducts" class="app_suppliers_products">
             <p>{{ childProduct.name }}</p>
@@ -65,8 +68,7 @@
     </ng-template>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-secondary" (click)="goBackToPreviousModal()">Back</button>
-    <button class="btn btn-secondary" (click)="modal.close()">Close</button>
+    <button class="btn btn-secondary" (click)="goBackToPreviousModal(); resetSelectedProduct()">Back</button>
+    <button class="btn btn-secondary" (click)="modal.close(); resetSearch()">Close</button>
   </div>
 </ng-template>
-

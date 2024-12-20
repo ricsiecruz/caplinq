@@ -24,6 +24,7 @@ export class AppComponent {
   selectedProduct: any = null;
   searchTerm: string = '';
   filteredList: any;
+  filteredProducts: any;
 
   constructor(
     private modalService: NgbModal,
@@ -44,9 +45,16 @@ export class AppComponent {
   }
 
   open(content: any) {
+    this.resetSearch();
     this.previousModal = this.currentModal; // Store the current modal before opening the new one
     this.modalContent = content; // Store the content of the first modal
     this.currentModal = this.modalService.open(content);
+  }
+
+  resetSearch() {
+    this.searchTerm = '';
+    this.filteredList = [...this.list]; // Reset to full suppliers list
+    this.filteredProducts = [...this.products]; // Reset to full products list
   }
 
   openNewModal(newContent: any, item: any) {
@@ -55,6 +63,7 @@ export class AppComponent {
   
     this.selectedItem = item; // Store the selected item's data
     console.log('Selected Item:', item);
+    this.searchTerm = '';
   
     // Fetch products related to the selected supplier
     this.service.getProductsBySupplierId(item.id).subscribe((res: any) => {
@@ -64,21 +73,53 @@ export class AppComponent {
         ...product,
         isExpanded: false, // Initially, child products are hidden
       }));
+      this.filteredProducts = [...this.products];
     });
   
     this.previousModal = this.currentModal; // Store the current modal before opening the new one
     this.currentModal = this.modalService.open(newContent); // Open the new modal
   }
+
+  filterProducts() {
+    this.filteredProducts = this.products.map(product => {
+      const matchesProductName = product.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const filteredChildProducts = product.childProducts.filter((child: any) =>
+        child.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        child.sku.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+
+      if (matchesProductName) {
+        return {
+          ...product,
+          isExpanded: true,
+          childProducts: product.childProducts,
+        };
+      }
+
+      if (filteredChildProducts.length > 0) {
+        return {
+          ...product,
+          isExpanded: true,
+          childProducts: filteredChildProducts,
+        };
+      }
+
+      return null;
+    }).filter(product => product !== null);
+  }
   
   toggleChildProducts(product: any) {
-    // Toggle the isExpanded property
     product.isExpanded = !product.isExpanded;
+    this.selectedProduct = product; // Highlight the selected product
+  }
 
-    // Set the selected product
-    this.selectedProduct = product.isExpanded ? product : null;
+  // Function to reset the selected product when navigating back
+  resetSelectedProduct() {
+    this.selectedProduct = null;
   }
 
   goBackToPreviousModal() {
+    this.resetSearch();
     // Dismiss the current modal safely
     this.currentModal?.dismiss();
 
