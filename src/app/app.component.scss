@@ -108,19 +108,23 @@
   padding: 40px;
   padding-bottom: 24px;
 
-  &_supplier {
+  &_supplier, &_products {
     display: flex;
     align-items: center;
     padding-bottom: 20px;
-  }
-
-  &_products {
-    display: flex;
-    align-items: center;
-    padding-bottom: 20px;
+    justify-content: space-between;
     svg {
       width: 20px;
     }
+  }
+
+  &_back {
+    border-radius: 3px;
+    border: 1px solid #c4c4c4;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    display: flex;
   }
 }
 
@@ -132,6 +136,7 @@ h4 {
 
 .btn-close {
   font-size: 10px;
+  margin: 0;
 }
 
 .modal-body {
