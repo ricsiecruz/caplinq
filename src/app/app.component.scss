@@ -1,99 +1,106 @@
 .app {
-    &_suppliers, &_products {
-      border-bottom: 1px solid #E5E5E5;
-      padding: 10px;
-      
+  height: 100vh;
+  align-items: center;
+  display: flex;
+  button {
+    display: flex;
+    margin: 0 auto;
+  }
+  &_suppliers, &_products {
+    border-bottom: 1px solid #E5E5E5;
+    padding: 10px;
+    
+    svg {
+      width: 15px;
+      fill: #c4c4c4;
+    }
+
+    &.no-fill-on-hover:hover {
       svg {
-        width: 15px;
-        fill: #c4c4c4;
+        fill: #c4c4c4 !important; /* Reset the fill */
+      }
+    }
+
+    p {
+      margin-bottom: 0;
+      padding: 10px;
+    }
+
+    &.highlight {
+      background-color: #f5f5f5; // Highlight color
+      color: #212529;
+      padding: 20px;
+
+      div {
+        padding-bottom: 10px;
       }
 
-      &.no-fill-on-hover:hover {
-        svg {
-          fill: #c4c4c4 !important; /* Reset the fill */
-        }
+      div:last-child {
+        padding-bottom: 0;
       }
 
       p {
-        margin-bottom: 0;
-        padding: 10px;
+        padding-top: 0;
+        padding-left: 0;
       }
+    }
 
-      &.highlight {
-        background-color: #f5f5f5; // Highlight color
-        color: #212529;
-        padding: 20px;
+    &_list {
+      display: flex;
+      justify-content: space-between;
+      &_item {
 
-        div {
-          padding-bottom: 10px;
+        border-top: 1px solid #E5E5E5;
+        padding: 10px;
+
+        p {
+          margin-bottom: 0;
         }
 
-        div:last-child {
+        p:first-child {
           padding-bottom: 0;
         }
 
-        p {
-          padding-top: 0;
-          padding-left: 0;
+        p:last-child {
+          color: #7B7B7B;
+          font-size: 12px;
+          font-weight: 400;
         }
       }
 
-      &_list {
+      // &_item:last-child {
+      //   padding-bottom: 0;
+      // }
+    }
+  }
+
+  &_suppliers:last-child {
+    border-bottom: none;  // Remove border-bottom for the last item
+  }
+
+  &_suppliers {
+    &:hover {
+      background-color: #2F8DF8FC;
+      color: #FFFFFF;
+      cursor: pointer;
+
+      svg {
+          fill: #FFFFFF;
+      }
+    }
+  }
+
+  &_products {      
+    display: flex;
+    justify-content: space-between;
+    &_list {
+      &_item {
+        padding: 20px;
         display: flex;
-        justify-content: space-between;
-        &_item {
-
-          border-top: 1px solid #E5E5E5;
-          padding: 10px;
-
-          p {
-            margin-bottom: 0;
-          }
-  
-          p:first-child {
-            padding-bottom: 0;
-          }
-  
-          p:last-child {
-            color: #7B7B7B;
-            font-size: 12px;
-            font-weight: 400;
-          }
-        }
-
-        // &_item:last-child {
-        //   padding-bottom: 0;
-        // }
+        column-gap: 20px;
       }
     }
-  
-    &_suppliers:last-child {
-      border-bottom: none;  // Remove border-bottom for the last item
-    }
-
-    &_suppliers {
-      &:hover {
-        background-color: #2F8DF8FC;
-        color: #FFFFFF;
-        cursor: pointer;
-
-        svg {
-            fill: #FFFFFF;
-        }
-      }
-    }
-
-    &_products {      
-      display: flex;
-      justify-content: space-between;
-      &_list {
-        &_item {
-          padding: 20px;
-          display: flex;
-          column-gap: 20px;
-        }
-      }
-    }
+  }
 }
 
 .modal-header {

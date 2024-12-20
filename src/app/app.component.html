@@ -1,4 +1,6 @@
-<button class="btn btn-primary" (click)="open(content)">Launch Demo Modal</button>
+<div class="app">
+  <button class="btn btn-primary" (click)="open(content)">Launch Demo Modal</button>
+</div>
 
 <ng-template #content let-modal>
   <div class="modal-header">
@@ -53,7 +55,6 @@
     <div *ngIf="filteredProducts.length > 0; else noProducts">
       <div
         *ngFor="let product of filteredProducts"
-        class="app"
         [ngClass]="{ 
           'highlight': isHighlight(product) && (searchTerm || product.isExpanded),
           'red-background': (searchTerm && product.name.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm && shouldHighlightProduct(product)) && product.isExpanded
