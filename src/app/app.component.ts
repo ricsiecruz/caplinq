@@ -29,6 +29,7 @@ export class AppComponent {
   selectedProducts: any[] = [];
 
   @ViewChild('selectedList') selectedList?: TemplateRef<any>;
+  @ViewChild('newModalContent') newModalContent?: TemplateRef<any>;
 
   constructor(
     private modalService: NgbModal,
@@ -169,8 +170,9 @@ export class AppComponent {
   }
   
   openSelectedListModal() {
-    this.modalService.open(this.selectedList, { size: 'lg' });
-  }
+    this.previousModal = this.currentModal; // Save the current modal as the previous one
+    this.currentModal = this.modalService.open(this.selectedList, { size: 'lg' }); // Open the selectedList modal
+  }  
   
   toggleChildProducts(product: any) {
     product.isExpanded = !product.isExpanded;
@@ -228,4 +230,14 @@ export class AppComponent {
       this.currentModal = this.modalService.open(this.modalContent); // Reopen the first modal
     }
   }
+
+  goBackToNewModal() {
+    this.currentModal?.dismiss();
+    if (this.newModalContent) {
+      this.currentModal = this.modalService.open(this.newModalContent);
+    } else {
+      console.error("newModalContent is not initialized.");
+    }
+  }  
+  
 }
