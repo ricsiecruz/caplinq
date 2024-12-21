@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalModule, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { ServiceService } from './services/service.service';
@@ -26,6 +26,9 @@ export class AppComponent {
   filteredList: any;
   filteredProducts: any;
   isCheckboxChecked: boolean = false;
+  selectedProducts: any[] = [];
+
+  @ViewChild('selectedList') selectedList?: TemplateRef<any>;
 
   constructor(
     private modalService: NgbModal,
@@ -124,6 +127,17 @@ export class AppComponent {
 
   onCheckboxChange(childProduct: any, event: Event): void {
     childProduct.isChecked = (event.target as HTMLInputElement).checked;
+  
+    if (childProduct.isChecked) {
+      // Add the product if checked
+      this.selectedProducts.push(childProduct);
+    } else {
+      // Remove the product if unchecked
+      this.selectedProducts = this.selectedProducts.filter(
+        (product) => product !== childProduct
+      );
+    }
+  
     this.updateCheckboxState();
     console.log(`${childProduct.name} is checked: ${childProduct.isChecked}`);
   }
@@ -147,8 +161,15 @@ export class AppComponent {
     }, 0);
   }
 
-  handleConfirm(): void {
-    console.log('Confirmed with selected products:', this.products);
+  handleConfirm() {
+    if (this.isAnyCheckboxChecked) {
+      this.currentModal?.close(); // Close the current modal (newModalContent)
+      this.openSelectedListModal(); // Open the selectedList modal
+    }
+  }
+  
+  openSelectedListModal() {
+    this.modalService.open(this.selectedList, { size: 'lg' });
   }
   
   toggleChildProducts(product: any) {

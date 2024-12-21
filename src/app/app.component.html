@@ -135,6 +135,7 @@
           'button_enabled': isAnyCheckboxChecked
         }" 
         [disabled]="!isAnyCheckboxChecked" 
+        (click)="modal.close(); resetSearch()"
       >
         Add
       </button>
@@ -142,4 +143,25 @@
   </div>
   
 </ng-template>
+
+<ng-template #selectedList let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Selected Products</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <ul *ngIf="selectedProducts.length > 0; else noProductsSelected">
+      <li *ngFor="let product of selectedProducts">
+        {{ product.name }} (SKU: {{ product.sku }})
+      </li>
+    </ul>
+    <ng-template #noProductsSelected>
+      <p>No products selected.</p>
+    </ng-template>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="modal.close()">Close</button>
+  </div>
+</ng-template>
+
 
