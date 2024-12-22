@@ -146,14 +146,20 @@
 
 <ng-template #selectedList let-modal>
   <div class="modal-header">
-    <button type="button" class="btn btn-secondary" (click)="goBackToNewModal()">Back</button>
-    <h4 class="modal-title">Selected Products</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    <div class="modal-header_products">
+      <div class="modal-header_back" (click)="goBackToNewModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z"></path>
+        </svg>
+      </div>
+      <h4 class="modal-title">Selection</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
   </div>
   <div class="modal-body">
     <ul *ngIf="selectedProducts.length > 0; else noProductsSelected">
       <li *ngFor="let product of selectedProducts">
-        {{ product.name }} (SKU: {{ product.sku }})
+        {{ product.name }}
       </li>
     </ul>
     <ng-template #noProductsSelected>
