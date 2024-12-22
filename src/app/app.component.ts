@@ -74,7 +74,6 @@ export class AppComponent {
 
   open(content: any) {
     this.resetSearch();
-    this.previousModal = this.currentModal;
     this.modalContent = content;
     this.currentModal = this.modalService.open(content);
   }
