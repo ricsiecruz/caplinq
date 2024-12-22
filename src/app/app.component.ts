@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgbModalModule, HttpClientModule, CommonModule, FormsModule], // Import HttpClientModule here
+  imports: [NgbModalModule, HttpClientModule, CommonModule, FormsModule],
   providers: [ServiceService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
@@ -16,11 +16,11 @@ import { FormsModule } from '@angular/forms';
 export class AppComponent {
   title = 'caplinq-local';
   list: any;
-  selectedItem: any = null; // Store the selected item data
-  products: any[] = []; // Store the list of products for the selected supplier
-  private currentModal: NgbModalRef | null = null; // Store the current modal instance
-  private previousModal: NgbModalRef | null = null; // Store the previous modal instance
-  private modalContent: any; // Store the content for the initial modal
+  selectedItem: any = null;
+  products: any[] = [];
+  private currentModal: NgbModalRef | null = null;
+  private previousModal: NgbModalRef | null = null;
+  private modalContent: any;
   selectedProduct: any = null;
   searchTerm: string = '';
   filteredList: any;
@@ -41,18 +41,23 @@ export class AppComponent {
       this.list = res;
       this.filteredList = [...this.list];
     });
-    this.modalContent = null; // Initialize the modalContent
+    this.modalContent = null;
   }
 
   onHover(product: any | null) {
-    this.hoveredProduct = product; // Set hovered product or null
+    this.hoveredProduct = product;
   }
 
   deleteProduct(product: any) {
-    // Remove the product from the selectedProducts array
     this.selectedProducts = this.selectedProducts.filter(p => p !== product);
+  
     console.log(`${product.name} deleted`);
+  
+    if (this.selectedProducts.length === 0) {
+      this.goBackToNewModal();
+    }
   }
+  
 
   shouldHighlightProduct(product: any): boolean {
     return product.childProducts.some((childProduct: any) =>
@@ -69,38 +74,35 @@ export class AppComponent {
 
   open(content: any) {
     this.resetSearch();
-    this.previousModal = this.currentModal; // Store the current modal before opening the new one
-    this.modalContent = content; // Store the content of the first modal
+    this.previousModal = this.currentModal;
+    this.modalContent = content;
     this.currentModal = this.modalService.open(content);
   }
 
   resetSearch() {
     this.searchTerm = '';
-    this.filteredList = [...this.list]; // Reset to full suppliers list
-    this.filteredProducts = [...this.products]; // Reset to full products list
+    this.filteredList = [...this.list];
+    this.filteredProducts = [...this.products];
   }
 
   openNewModal(newContent: any, item: any) {
-    // Safely dismiss the current modal if it exists
-    this.currentModal?.dismiss(); // Using optional chaining to call dismiss() if currentModal is not null
+    this.currentModal?.dismiss();
   
-    this.selectedItem = item; // Store the selected item's data
+    this.selectedItem = item;
     console.log('Selected Item:', item);
     this.searchTerm = '';
   
-    // Fetch products related to the selected supplier
     this.service.getProductsBySupplierId(item.id).subscribe((res: any) => {
       console.log('Products for supplier:', res);
-      // Initialize isExpanded for each product to false initially
       this.products = res.data.map((product: any) => ({
         ...product,
-        isExpanded: false, // Initially, child products are hidden
+        isExpanded: false,
       }));
       this.filteredProducts = [...this.products];
     });
   
-    this.previousModal = this.currentModal; // Store the current modal before opening the new one
-    this.currentModal = this.modalService.open(newContent); // Open the new modal
+    this.previousModal = this.currentModal;
+    this.currentModal = this.modalService.open(newContent);
   }
 
   filterProducts() {
@@ -111,13 +113,12 @@ export class AppComponent {
         child.sku.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
   
-      // Set isExpanded based on the search term
       const isExpanded = this.searchTerm !== '' && (matchesProductName || filteredChildProducts.length > 0);
   
       if (matchesProductName) {
         return {
           ...product,
-          isExpanded: isExpanded,  // Set isExpanded based on search term
+          isExpanded: isExpanded,
           childProducts: product.childProducts,
         };
       }
@@ -125,12 +126,11 @@ export class AppComponent {
       if (filteredChildProducts.length > 0) {
         return {
           ...product,
-          isExpanded: isExpanded,  // Set isExpanded based on search term
+          isExpanded: isExpanded,
           childProducts: filteredChildProducts,
         };
       }
   
-      // Return null if no matches and no filtered child products
       return null;
     }).filter(product => product !== null);
   
@@ -141,10 +141,8 @@ export class AppComponent {
     childProduct.isChecked = (event.target as HTMLInputElement).checked;
   
     if (childProduct.isChecked) {
-      // Add the product if checked
       this.selectedProducts.push(childProduct);
     } else {
-      // Remove the product if unchecked
       this.selectedProducts = this.selectedProducts.filter(
         (product) => product !== childProduct
       );
@@ -175,14 +173,14 @@ export class AppComponent {
 
   handleConfirm() {
     if (this.isAnyCheckboxChecked) {
-      this.currentModal?.close(); // Close the current modal (newModalContent)
-      this.openSelectedListModal(); // Open the selectedList modal
+      this.currentModal?.close();
+      this.openSelectedListModal();
     }
   }
   
   openSelectedListModal() {
-    this.previousModal = this.currentModal; // Save the current modal as the previous one
-    this.currentModal = this.modalService.open(this.selectedList, { size: 'lg' }); // Open the selectedList modal
+    this.previousModal = this.currentModal;
+    this.currentModal = this.modalService.open(this.selectedList, { size: 'lg' });
   }  
   
   toggleChildProducts(product: any) {
@@ -219,24 +217,21 @@ export class AppComponent {
 
   highlightText(text: string, searchTerm: string): string {
     if (!searchTerm) {
-      return text; // Return the original text if no search term is provided
+      return text;
     }
   
     const regex = new RegExp(`(${searchTerm})`, 'gi');
     return text.replace(regex, '<span class="highlight">$1</span>');
   }  
 
-  // Function to reset the selected product when navigating back
   resetSelectedProduct() {
     this.selectedProduct = null;
   }
 
   goBackToPreviousModal() {
     this.resetSearch();
-    // Dismiss the current modal safely
     this.currentModal?.dismiss();
 
-    // Check if modalContent exists before reopening the original modal
     if (this.modalContent) {
       this.currentModal = this.modalService.open(this.modalContent); // Reopen the first modal
     }
