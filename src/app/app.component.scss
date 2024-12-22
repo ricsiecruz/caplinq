@@ -106,6 +106,16 @@
       display: block;
     }
   }
+
+  &_selection {
+    border-bottom: 1px solid #E5E5E5;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    &:hover {
+      background-color: #F5F5F5;
+    }
+  }
 }
 
 .modal-header {
@@ -146,6 +156,9 @@ h4 {
 
 .modal-body {
     padding: 0 40px;
+    svg {
+      width: 20px;
+    }
 }
 
 .red-background {

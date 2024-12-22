@@ -27,6 +27,7 @@ export class AppComponent {
   filteredProducts: any;
   isCheckboxChecked: boolean = false;
   selectedProducts: any[] = [];
+  hoveredProduct: any = null;
 
   @ViewChild('selectedList') selectedList?: TemplateRef<any>;
   @ViewChild('newModalContent') newModalContent?: TemplateRef<any>;
@@ -41,6 +42,16 @@ export class AppComponent {
       this.filteredList = [...this.list];
     });
     this.modalContent = null; // Initialize the modalContent
+  }
+
+  onHover(product: any | null) {
+    this.hoveredProduct = product; // Set hovered product or null
+  }
+
+  deleteProduct(product: any) {
+    // Remove the product from the selectedProducts array
+    this.selectedProducts = this.selectedProducts.filter(p => p !== product);
+    console.log(`${product.name} deleted`);
   }
 
   shouldHighlightProduct(product: any): boolean {
